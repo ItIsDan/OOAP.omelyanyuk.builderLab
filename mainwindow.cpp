@@ -98,6 +98,12 @@ void MainWindow::setConnections()
         _labInfo->setVisible(!checked);
         _listView->setVisible(checked);
     });
+
+    connect(_labInfo, &QListWidget::currentRowChanged, this, [this](auto currentRow) {
+        auto currentCar = _cars[currentRow];
+        for (int i = 0; i < _controls.size(); i++)
+            _controls[i]->second->setCurrentText(_cars[currentRow]->showAll()[i]);
+    });
 }
 
 MainWindow::~MainWindow()

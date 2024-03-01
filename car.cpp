@@ -16,6 +16,21 @@ Car::Car(const QString &exterior,
     _multimedia = multimedia;
 }
 
+void Car::setName(const QString &name)
+{
+    if (_name == name)
+        return;
+
+    _name = name;
+
+    emit nameChanged(name);
+}
+
+QString Car::name()
+{
+    return _name;
+}
+
 QString Car::exterior()
 {
     return _exterior;
@@ -43,10 +58,10 @@ QString Car::multimedia()
 
 QStringList Car::showParameters()
 {
-    return { "Exterior", "Interior", "Comfort", "Safety", "Multimedia" };
+    return { "Name", "Exterior", "Interior", "Comfort", "Safety", "Multimedia" };
 }
 
 QStringList Car::showAll()
 {
-    return { exterior(), interior(), comfort(), safety(), multimedia() };
+    return { name(), exterior(), interior(), comfort(), safety(), multimedia() };
 }

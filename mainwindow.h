@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QComboBox>
+#include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
+#include <QPair>
 
 class MainWindow : public QMainWindow
 {
@@ -22,7 +24,7 @@ private:
     QComboBox *_comboComfort;
     QComboBox *_comboSafety;
     QComboBox *_comboMultimedia;
-    QVector<QComboBox *> _controls;
+    QVector<QPair<QLabel *, QComboBox *> *> _controls;
     QPushButton *_buttonBuild;
     QListWidget *_listView;
 };

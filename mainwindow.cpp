@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include <QBoxLayout>
-#include <QLabel>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -9,25 +8,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     auto centralWidget = new QWidget(this);
     auto layout = new QGridLayout(centralWidget);
 
-    auto labelExterior = new QLabel("Exterior:");
+    auto *labelExterior = new QLabel("Exterior:");
     _comboExterior = new QComboBox();
-    _controls.push_back(_comboExterior);
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelExterior, _comboExterior));
 
     auto labelInterior = new QLabel("Interior:");
     _comboInterior = new QComboBox();
-    _controls.push_back(_comboInterior);
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelInterior, _comboInterior));
 
     auto labelComfort = new QLabel("Comfort:");
     _comboComfort = new QComboBox();
-    _controls.push_back(_comboComfort);
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelComfort, _comboComfort));
 
     auto labelSafety = new QLabel("Safety:");
     _comboSafety = new QComboBox();
-    _controls.push_back(_comboSafety);
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelSafety, _comboSafety));
 
     auto labelMultimedia = new QLabel("Multimedia:");
     _comboMultimedia = new QComboBox();
-    _controls.push_back(_comboMultimedia);
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelMultimedia, _comboMultimedia));
 
     _buttonBuild = new QPushButton("Build Configuration");
 
@@ -55,9 +54,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 void MainWindow::setConnections()
 {
     connect(_buttonBuild, &QPushButton::clicked, this, [this] {
+        QString buffer;
         for (const auto &control : qAsConst(_controls)) {
-            qInfo() << control->currentText();
+            buffer.push_back(control->first->text());
+            buffer.push_back("\n");
+            buffer.push_back(control->second->currentText());
         }
+        _listView->addItem(buffer);
     });
 }
 

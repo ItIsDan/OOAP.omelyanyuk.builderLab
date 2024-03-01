@@ -16,6 +16,8 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        car.h
+        car.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

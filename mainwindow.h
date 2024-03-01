@@ -7,6 +7,8 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QPair>
+#include <QCheckBox>
+#include "car.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,6 +21,7 @@ public:
 private:
     void setConnections();
 
+    QCheckBox *_outputInfo;
     QComboBox *_comboExterior;
     QComboBox *_comboInterior;
     QComboBox *_comboComfort;
@@ -27,5 +30,6 @@ private:
     QVector<QPair<QLabel *, QComboBox *> *> _controls;
     QPushButton *_buttonBuild;
     QListWidget *_listView;
+    QListWidget *_labInfo;
 };
 #endif // MAINWINDOW_H

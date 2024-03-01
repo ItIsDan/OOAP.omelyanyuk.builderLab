@@ -20,6 +20,7 @@ public:
 
 private:
     void setConnections();
+    void handleNewCar(Car *car);
 
     QCheckBox *_outputInfo;
     QComboBox *_comboExterior;
@@ -31,5 +32,6 @@ private:
     QPushButton *_buttonBuild;
     QListWidget *_listView;
     QListWidget *_labInfo;
+    QVector<Car *> _cars;
 };
 #endif // MAINWINDOW_H

@@ -11,22 +11,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     auto *labelExterior = new QLabel("Exterior:");
     _comboExterior = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelExterior, _comboExterior));
+    _comboExterior->addItems({ "", "1", "2" });
 
     auto labelInterior = new QLabel("Interior:");
     _comboInterior = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelInterior, _comboInterior));
+    _comboInterior->addItems({ "", "1", "2" });
 
     auto labelComfort = new QLabel("Comfort:");
     _comboComfort = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelComfort, _comboComfort));
+    _comboComfort->addItems({ "", "1", "2" });
 
     auto labelSafety = new QLabel("Safety:");
     _comboSafety = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelSafety, _comboSafety));
+    _comboSafety->addItems({ "", "1", "2" });
 
     auto labelMultimedia = new QLabel("Multimedia:");
     _comboMultimedia = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelMultimedia, _comboMultimedia));
+    _comboMultimedia->addItems({ "", "1", "2" });
 
     _buttonBuild = new QPushButton("Build Configuration");
 
@@ -71,9 +76,21 @@ void MainWindow::setConnections()
                     err = true;
             }
             if (err)
-                buffer.append("Some part is empty");
+                buffer.append("ERROR: Some part is empty");
             _listView->addItem(buffer);
-        } else {
+            return;
+        }
+        try {
+            handleNewCar(new Car(_comboExterior->currentText(), _comboInterior->currentText(),
+                                 _comboComfort->currentText(), _comboSafety->currentText(),
+                                 _comboMultimedia->currentText()));
+        } catch (...) {
+            qDebug() << "Argument must not be empty";
+            move(x() + 10, y());
+            _sleep(10);
+            move(x() - 20, y());
+            _sleep(10);
+            move(x() + 10, y());
         }
     });
 
@@ -93,4 +110,19 @@ MainWindow::~MainWindow()
         delete control->second;
         delete control;
     }
+}
+
+void MainWindow::handleNewCar(Car *car)
+{
+    _cars.append(car);
+
+    QString buffer;
+    for (int i = 0; i < car->showParameters().size(); ++i) {
+        buffer.push_back(car->showParameters()[i]);
+        buffer.push_back(" ");
+        buffer.push_back(car->showAll()[i]);
+        buffer.push_back("\n");
+    }
+    buffer.chop(1);
+    _labInfo->addItem(buffer);
 }

@@ -1,7 +1,52 @@
 #include "car.h"
 
-Car::Car(QObject *parent)
-    : QObject{parent}
+Car::Car(const QString &exterior,
+         const QString &interior,
+         const QString &comfort,
+         const QString &safety,
+         const QString &multimedia)
 {
+    if (exterior == "" || interior == "" || comfort == "" || safety == "" || multimedia == "")
+        throw nullptr;
 
+    _exterior = exterior;
+    _interior = interior;
+    _comfort = comfort;
+    _safety = safety;
+    _multimedia = multimedia;
+}
+
+QString Car::exterior()
+{
+    return _exterior;
+}
+
+QString Car::interior()
+{
+    return _interior;
+}
+
+QString Car::comfort()
+{
+    return _comfort;
+}
+
+QString Car::safety()
+{
+    return _safety;
+}
+
+QString Car::multimedia()
+{
+    return _multimedia;
+}
+
+QStringList Car::showParameters()
+{
+    return { "Exterior", "Interior", "Comfort", "Safety", "Multimedia" };
+}
+
+QStringList Car::showAll()
+{
+    return { exterior(), interior(), comfort(), safety(), multimedia() };
 }

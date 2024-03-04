@@ -1,5 +1,8 @@
 #include "car.h"
 
+Car::Car()
+{}
+
 Car::Car(const QString &exterior,
          const QString &interior,
          const QString &comfort,
@@ -16,6 +19,11 @@ Car::Car(const QString &exterior,
     _multimedia = multimedia;
 }
 
+QString Car::name()
+{
+    return _name;
+}
+
 void Car::setName(const QString &name)
 {
     if (_name == name)
@@ -24,11 +32,6 @@ void Car::setName(const QString &name)
     _name = name;
 
     emit nameChanged(name);
-}
-
-QString Car::name()
-{
-    return _name;
 }
 
 QString Car::exterior()

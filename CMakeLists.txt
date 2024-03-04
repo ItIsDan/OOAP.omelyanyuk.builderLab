@@ -18,6 +18,17 @@ set(PROJECT_SOURCES
         mainwindow.h
         car.h
         car.cpp
+        manualcar.cpp
+        manualcar.h
+        automaticcar.cpp
+        automaticcar.h
+        director.cpp
+        director.h
+        manualcarbuilder.cpp
+        manualcarbuilder.h
+        automaticcarbuilder.cpp
+        automaticcarbuilder.h
+        IBuilder.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

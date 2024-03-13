@@ -1,12 +1,14 @@
 #include "mainwindow.h"
-#include <QBoxLayout>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setFixedSize(400, 600);
     auto centralWidget = new QWidget(this);
-    auto layout = new QGridLayout(centralWidget);
+    layout = new QGridLayout(centralWidget);
+
+    _comboChoice = new QComboBox();
+    _comboChoice->addItems({ "Manual Car", "Automatic Car" });
 
     auto *labelExterior = new QLabel("Exterior:");
     _comboExterior = new QComboBox();
@@ -33,16 +35,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _controls.push_back(new QPair<QLabel *, QComboBox *>(labelMultimedia, _comboMultimedia));
     _comboMultimedia->addItems({ "", "1", "2" });
 
+    auto labelDriveMode = new QLabel("Drive Mode:");
+    _comboDriveMode = new QComboBox();
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelDriveMode, _comboDriveMode));
+    _comboDriveMode->addItems({ "", "All wheel", "Front wheel", "Roar wheel" });
+
+    auto labelAutoDrive = new QLabel("Auto Drive:");
+    _comboAutoDrive = new QComboBox();
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelAutoDrive, _comboAutoDrive));
+    _comboAutoDrive->addItems({ "", "None", "AI" });
+
     _buttonBuild = new QPushButton("Build Configuration");
 
     _outputInfo = new QCheckBox("Output Info");
 
     _listView = new QListWidget();
-    _listView->setVisible(_outputInfo->isChecked());
     _labInfo = new QListWidget();
 
     setConnections();
     layout->addWidget(_outputInfo);
+    layout->addWidget(_comboChoice, 0, 1);
     layout->addWidget(labelExterior, 1, 0);
     layout->addWidget(_comboExterior, 1, 1, 1, 1);
     layout->addWidget(labelInterior);
@@ -53,9 +65,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     layout->addWidget(_comboSafety);
     layout->addWidget(labelMultimedia);
     layout->addWidget(_comboMultimedia);
-    layout->addWidget(_buttonBuild, 6, 0, 1, 2);
-    layout->addWidget(_listView, 7, 0, 2, 2);
-    layout->addWidget(_labInfo, 7, 0, 2, 2);
+    layout->addWidget(labelDriveMode);
+    layout->addWidget(_comboDriveMode);
+    layout->addWidget(_buttonBuild, 7, 0, 1, 2);
+    layout->addWidget(_listView, 8, 0, 2, 2);
 
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
@@ -81,9 +94,10 @@ void MainWindow::setConnections()
             return;
         }
         try {
-            handleNewCar(new Car(_comboExterior->currentText(), _comboInterior->currentText(),
-                                 _comboComfort->currentText(), _comboSafety->currentText(),
-                                 _comboMultimedia->currentText()));
+            if (_comboChoice->currentText() == "Manual Car")
+                handleNewCar(new Car(_comboExterior->currentText(), _comboInterior->currentText(),
+                                     _comboComfort->currentText(), _comboSafety->currentText(),
+                                     _comboMultimedia->currentText()));
         } catch (...) {
             qDebug() << "Argument must not be empty";
             move(x() + 10, y());
@@ -95,8 +109,10 @@ void MainWindow::setConnections()
     });
 
     connect(_outputInfo, &QCheckBox::clicked, this, [this](auto checked) {
-        _labInfo->setVisible(!checked);
-        _listView->setVisible(checked);
+        if (checked)
+            layout->replaceWidget(_labInfo, _listView);
+        else
+            layout->replaceWidget(_listView, _labInfo);
     });
 
     connect(_labInfo, &QListWidget::currentRowChanged, this, [this](auto currentRow) {
@@ -121,7 +137,6 @@ MainWindow::~MainWindow()
 void MainWindow::handleNewCar(Car *car)
 {
     _cars.append(car);
-
     QString buffer;
     for (int i = 0; i < car->showParameters().size(); ++i) {
         buffer.push_back(car->showParameters()[i]);

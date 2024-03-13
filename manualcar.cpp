@@ -1,7 +1,6 @@
 #include "manualcar.h"
 
-ManualCar::ManualCar(QObject *parent)
-    : QObject{parent}
+ManualCar::ManualCar()
 {
-
+    setName("ManualCar");
 }

@@ -33,7 +33,7 @@ public:
 
 signals:
 
-private:
+protected:
     QString _name { "Car" };
     QString _exterior {};
     QString _interior {};

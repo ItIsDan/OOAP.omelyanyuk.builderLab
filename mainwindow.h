@@ -8,7 +8,9 @@
 #include <QPushButton>
 #include <QPair>
 #include <QCheckBox>
-#include "car.h"
+#include <QBoxLayout>
+// #include "car.h"
+#include "manualcar.h"
 
 class MainWindow : public QMainWindow
 {
@@ -22,12 +24,17 @@ private:
     void setConnections();
     void handleNewCar(Car *car);
 
+    QGridLayout *layout;
+
     QCheckBox *_outputInfo;
+    QComboBox *_comboChoice;
     QComboBox *_comboExterior;
     QComboBox *_comboInterior;
     QComboBox *_comboComfort;
     QComboBox *_comboSafety;
     QComboBox *_comboMultimedia;
+    QComboBox *_comboDriveMode;
+    QComboBox *_comboAutoDrive;
     QVector<QPair<QLabel *, QComboBox *> *> _controls;
     QPushButton *_buttonBuild;
     QListWidget *_listView;

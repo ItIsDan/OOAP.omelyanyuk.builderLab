@@ -9,8 +9,10 @@
 #include <QPair>
 #include <QCheckBox>
 #include <QBoxLayout>
-// #include "car.h"
-#include "manualcar.h"
+
+#include "director.h"
+#include "manualcarbuilder.h"
+#include "automaticcarbuilder.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,6 +21,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    QComboBox *comboExterior();
+    QComboBox *comboInterior();
+    QComboBox *comboComfort();
+    QComboBox *comboSafety();
+    QComboBox *comboMultimedia();
+    QComboBox *comboDriveMode();
+    QComboBox *comboAutoDrive();
 
 private:
     void setConnections();
@@ -33,12 +43,22 @@ private:
     QComboBox *_comboComfort;
     QComboBox *_comboSafety;
     QComboBox *_comboMultimedia;
+
+    QLabel *_labelDriveMode;
     QComboBox *_comboDriveMode;
+    QLabel *_labelAutoDrive;
     QComboBox *_comboAutoDrive;
+    QPushButton *_clear;
+
     QVector<QPair<QLabel *, QComboBox *> *> _controls;
     QPushButton *_buttonBuild;
     QListWidget *_listView;
     QListWidget *_labInfo;
     QVector<Car *> _cars;
+
+    Director *_director;
+    ManualCarBuilder *_manualCarBuilder;
+    AutomaticCarBuilder *_automaticCarBuilder;
+    void allocateElements();
 };
 #endif // MAINWINDOW_H

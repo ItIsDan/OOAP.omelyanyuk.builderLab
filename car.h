@@ -16,30 +16,34 @@ public:
                  const QString &safety,
                  const QString &multimedia);
 
-    //    // Builder need to react on comboBoxesValueChanges -> builder->car()->setExterior(value);
-    //    && add doneCar() on btnClick; void set (const void set (const void set (const void set
-    //    (const
     QString name();
     void setName(const QString &name);
-    Q_SIGNAL void nameChanged(const QString &name);
 
     QString exterior();
-    QString interior();
-    QString comfort();
-    QString safety();
-    QString multimedia();
-    QStringList showParameters();
-    QStringList showAll();
+    void setExterior(const QString &exterior);
 
-signals:
+    QString interior();
+    void setInterior(const QString &interior);
+
+    QString comfort();
+    void setComfort(const QString &comfort);
+
+    QString safety();
+    void setSafety(const QString &safety);
+
+    QString multimedia();
+    void setMultimedia(const QString &multimedia);
+
+    virtual QStringList showParameters() = 0;
+    virtual QStringList showAll() = 0;
 
 protected:
-    QString _name { "Car" };
-    QString _exterior {};
-    QString _interior {};
-    QString _comfort {};
-    QString _safety {};
-    QString _multimedia {};
+    QString _name { "" };
+    QString _exterior { "" };
+    QString _interior { "" };
+    QString _comfort { "" };
+    QString _safety { "" };
+    QString _multimedia { "" };
 };
 
 #endif // CAR_H

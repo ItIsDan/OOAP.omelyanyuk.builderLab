@@ -10,7 +10,14 @@ class AutomaticCar : public Car
 public:
     explicit AutomaticCar();
 
-signals:
+    QString autoDrive();
+    void setAutoDrive(const QString &autoDrive);
+
+    QStringList showParameters();
+    QStringList showAll();
+
+private:
+    QString _autoDrive;
 };
 
 #endif // AUTOMATICCAR_H

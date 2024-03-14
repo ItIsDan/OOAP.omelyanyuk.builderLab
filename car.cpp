@@ -1,4 +1,5 @@
 #include "car.h"
+#include "QDebug"
 
 Car::Car()
 {}
@@ -30,8 +31,6 @@ void Car::setName(const QString &name)
         return;
 
     _name = name;
-
-    emit nameChanged(name);
 }
 
 QString Car::exterior()
@@ -39,9 +38,25 @@ QString Car::exterior()
     return _exterior;
 }
 
+void Car::setExterior(const QString &exterior)
+{
+    if (_exterior == exterior)
+        return;
+
+    _exterior = exterior;
+}
+
 QString Car::interior()
 {
     return _interior;
+}
+
+void Car::setInterior(const QString &interior)
+{
+    if (_interior == interior)
+        return;
+
+    _interior = interior;
 }
 
 QString Car::comfort()
@@ -49,9 +64,25 @@ QString Car::comfort()
     return _comfort;
 }
 
+void Car::setComfort(const QString &comfort)
+{
+    if (_comfort == comfort)
+        return;
+
+    _comfort = comfort;
+}
+
 QString Car::safety()
 {
     return _safety;
+}
+
+void Car::setSafety(const QString &safety)
+{
+    if (_safety == safety)
+        return;
+
+    _safety = safety;
 }
 
 QString Car::multimedia()
@@ -59,12 +90,10 @@ QString Car::multimedia()
     return _multimedia;
 }
 
-QStringList Car::showParameters()
+void Car::setMultimedia(const QString &multimedia)
 {
-    return { "Name", "Exterior", "Interior", "Comfort", "Safety", "Multimedia" };
-}
+    if (_multimedia == multimedia)
+        return;
 
-QStringList Car::showAll()
-{
-    return { name(), exterior(), interior(), comfort(), safety(), multimedia() };
+    _multimedia = multimedia;
 }

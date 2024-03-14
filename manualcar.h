@@ -10,7 +10,14 @@ class ManualCar : public Car
 public:
     explicit ManualCar();
 
-signals:
+    QString driveMode();
+    void setDriveMode(const QString &driveMode);
+
+    QStringList showParameters();
+    QStringList showAll();
+
+private:
+    QString _driveMode;
 };
 
 #endif // MANUALCAR_H

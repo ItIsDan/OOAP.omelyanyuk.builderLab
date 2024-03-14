@@ -2,6 +2,8 @@
 #define DIRECTOR_H
 
 #include <QObject>
+#include "IBuilder.h"
+#include "car.h"
 
 class Director : public QObject
 {
@@ -9,8 +11,12 @@ class Director : public QObject
 public:
     explicit Director(QObject *parent = nullptr);
 
-signals:
+    void setBuilder(IBuilder *builder);
 
+    Car *makeCar();
+
+private:
+    IBuilder *_carBuilder;
 };
 
 #endif // DIRECTOR_H

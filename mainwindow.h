@@ -9,6 +9,7 @@
 #include <QPair>
 #include <QCheckBox>
 #include <QBoxLayout>
+#include <QLineEdit>
 
 #include "director.h"
 #include "manualcarbuilder.h"
@@ -31,23 +32,30 @@ public:
     QComboBox *comboAutoDrive();
 
 private:
-    void setConnections();
-    void handleNewCar(Car *car);
-
+    QWidget *centralWidget;
     QGridLayout *layout;
 
+    QLabel *_labelExterior;
+    QLabel *_labelInterior;
+    QLabel *_labelComfort;
+    QLabel *_labelSafety;
+    QLabel *_labelMultimedia;
+    QLabel *_labelDriveMode;
+    QLabel *_labelAutoDrive;
+
     QCheckBox *_outputInfo;
+
+    QLineEdit *_nameOfCar;
+
     QComboBox *_comboChoice;
     QComboBox *_comboExterior;
     QComboBox *_comboInterior;
     QComboBox *_comboComfort;
     QComboBox *_comboSafety;
     QComboBox *_comboMultimedia;
-
-    QLabel *_labelDriveMode;
     QComboBox *_comboDriveMode;
-    QLabel *_labelAutoDrive;
     QComboBox *_comboAutoDrive;
+
     QPushButton *_clear;
 
     QVector<QPair<QLabel *, QComboBox *> *> _controls;
@@ -59,6 +67,11 @@ private:
     Director *_director;
     ManualCarBuilder *_manualCarBuilder;
     AutomaticCarBuilder *_automaticCarBuilder;
+
     void allocateElements();
+    void modifyElements();
+    void arrangeElements();
+    void setConnections();
+    void handleNewCar(Car *car);
 };
 #endif // MAINWINDOW_H

@@ -12,6 +12,7 @@ public:
     explicit AutomaticCarBuilder();
 
     void reset();
+    void setName(const QString &name) override;
     void setExterior(const QString &exterior) override;
     void setInterior(const QString &interior) override;
     void setComfort(const QString &comfort) override;

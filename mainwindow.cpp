@@ -3,52 +3,57 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    setFixedSize(400, 600);
-    auto centralWidget = new QWidget(this);
+    setFixedSize(300, 476);
+
+    allocateElements();
+
+    modifyElements();
+
+    setConnections();
+
+    arrangeElements();
+}
+
+void MainWindow::allocateElements()
+{
+    centralWidget = new QWidget(this);
     layout = new QGridLayout(centralWidget);
 
     _director = new Director();
     _manualCarBuilder = new ManualCarBuilder();
     _automaticCarBuilder = new AutomaticCarBuilder();
-    _director->setBuilder(_manualCarBuilder);
 
     _comboChoice = new QComboBox();
-    _comboChoice->addItems({ "Manual Car", "Automatic Car" });
 
-    auto *labelExterior = new QLabel("Exterior:");
+    _nameOfCar = new QLineEdit();
+
+    _labelExterior = new QLabel("Exterior:");
     _comboExterior = new QComboBox();
-    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelExterior, _comboExterior));
-    _comboExterior->addItems({ "", "1", "2" });
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelExterior, _comboExterior));
 
-    auto labelInterior = new QLabel("Interior:");
+    _labelInterior = new QLabel("Interior:");
     _comboInterior = new QComboBox();
-    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelInterior, _comboInterior));
-    _comboInterior->addItems({ "", "1", "2" });
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelInterior, _comboInterior));
 
-    auto labelComfort = new QLabel("Comfort:");
+    _labelComfort = new QLabel("Comfort:");
     _comboComfort = new QComboBox();
-    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelComfort, _comboComfort));
-    _comboComfort->addItems({ "", "1", "2" });
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelComfort, _comboComfort));
 
-    auto labelSafety = new QLabel("Safety:");
+    _labelSafety = new QLabel("Safety:");
     _comboSafety = new QComboBox();
-    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelSafety, _comboSafety));
-    _comboSafety->addItems({ "", "1", "2" });
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelSafety, _comboSafety));
 
-    auto labelMultimedia = new QLabel("Multimedia:");
+    _labelMultimedia = new QLabel("Multimedia:");
     _comboMultimedia = new QComboBox();
-    _controls.push_back(new QPair<QLabel *, QComboBox *>(labelMultimedia, _comboMultimedia));
-    _comboMultimedia->addItems({ "", "1", "2" });
+    _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelMultimedia, _comboMultimedia));
 
     _labelDriveMode = new QLabel("Drive Mode:");
     _comboDriveMode = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelDriveMode, _comboDriveMode));
-    _comboDriveMode->addItems({ "", "All wheels", "Front wheels", "Back wheels" });
 
     _labelAutoDrive = new QLabel("Auto Drive:");
     _comboAutoDrive = new QComboBox();
     _controls.push_back(new QPair<QLabel *, QComboBox *>(_labelAutoDrive, _comboAutoDrive));
-    _comboAutoDrive->addItems({ "", "Semi-auto", "AI" });
 
     _buttonBuild = new QPushButton("Build Configuration");
 
@@ -57,19 +62,47 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _listView = new QListWidget();
     _labInfo = new QListWidget();
     _clear = new QPushButton("Clear");
+}
 
-    setConnections();
-    layout->addWidget(_outputInfo);
-    layout->addWidget(_comboChoice, 0, 1);
-    layout->addWidget(labelExterior, 1, 0);
+void MainWindow::modifyElements()
+{
+    _nameOfCar->setAlignment(Qt::AlignRight);
+
+    _labInfo->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    _director->setBuilder(_manualCarBuilder);
+
+    _comboChoice->addItems({ "Manual Car", "Automatic Car" });
+
+    _comboExterior->addItems({ "", "1", "2" });
+
+    _comboInterior->addItems({ "", "1", "2" });
+
+    _comboComfort->addItems({ "", "1", "2" });
+
+    _comboSafety->addItems({ "", "1", "2" });
+
+    _comboMultimedia->addItems({ "", "1", "2" });
+
+    _comboDriveMode->addItems({ "", "All wheels", "Front wheels", "Back wheels" });
+
+    _comboAutoDrive->addItems({ "", "Semi-auto", "AI" });
+}
+
+void MainWindow::arrangeElements()
+{
+    //    layout->addWidget(_outputInfo);
+    layout->addWidget(_comboChoice, 0, 0);
+    layout->addWidget(_nameOfCar, 0, 1);
+    layout->addWidget(_labelExterior, 1, 0);
     layout->addWidget(_comboExterior, 1, 1, 1, 1);
-    layout->addWidget(labelInterior);
+    layout->addWidget(_labelInterior);
     layout->addWidget(_comboInterior);
-    layout->addWidget(labelComfort);
+    layout->addWidget(_labelComfort);
     layout->addWidget(_comboComfort);
-    layout->addWidget(labelSafety);
+    layout->addWidget(_labelSafety);
     layout->addWidget(_comboSafety);
-    layout->addWidget(labelMultimedia);
+    layout->addWidget(_labelMultimedia);
     layout->addWidget(_comboMultimedia);
     layout->addWidget(_labelDriveMode);
     layout->addWidget(_comboDriveMode);
@@ -80,32 +113,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 }
-
-void MainWindow::allocateElements()
-{}
-
 void MainWindow::setConnections()
 {
     connect(_buttonBuild, &QPushButton::clicked, this, [this] {
-        if (_outputInfo->isChecked()) {
-            QString buffer;
-            bool err = false;
-            for (const auto &control : qAsConst(_controls)) {
-                buffer.push_back(control->first->text());
-                buffer.push_back(" ");
-                buffer.push_back(control->second->currentText());
-                buffer.push_back("\n");
-                if (control->second->currentText() == "")
-                    err = true;
-            }
-            if (err)
-                buffer.append("ERROR: Some part is empty");
-            _listView->addItem(buffer);
-            return;
-        }
+        //        if (_outputInfo->isChecked()) {
+        //            QString buffer;
+        //            bool err = false;
+        //            for (const auto &control : qAsConst(_controls)) {
+        //                buffer.push_back(control->first->text());
+        //                buffer.push_back(" ");
+        //                buffer.push_back(control->second->currentText());
+        //                buffer.push_back("\n");
+        //                if (control->second->currentText() == "")
+        //                    err = true;
+        //            }
+        //            if (err)
+        //                buffer.append("ERROR: Some part is empty");
+        //            _listView->addItem(buffer);
+        //            return;
+        //        }
 
-        auto car = _director->makeCar();
-        handleNewCar(car);
+        handleNewCar(_director->makeCar());
     });
 
     connect(_comboChoice, &QComboBox::currentTextChanged, this, [this](auto text) {
@@ -126,6 +154,17 @@ void MainWindow::setConnections()
             layout->replaceWidget(_comboDriveMode, _comboAutoDrive);
             _labelDriveMode->setVisible(false);
             _comboDriveMode->setVisible(false);
+        }
+    });
+
+    connect(_nameOfCar, &QLineEdit::textEdited, this, [this](auto name) {
+        if (name.isEmpty()) {
+            _manualCarBuilder->setName("Manual Car");
+            _automaticCarBuilder->setName("Automatic Car");
+            return;
+        } else {
+            _manualCarBuilder->setName(name);
+            _automaticCarBuilder->setName(name);
         }
     });
 
@@ -163,6 +202,7 @@ void MainWindow::setConnections()
     });
 
     connect(_automaticCarBuilder, &AutomaticCarBuilder::resetted, this, [this]() {
+        _automaticCarBuilder->setName(_nameOfCar->text());
         _automaticCarBuilder->setExterior(comboExterior()->currentText());
         _automaticCarBuilder->setInterior(comboInterior()->currentText());
         _automaticCarBuilder->setComfort(comboComfort()->currentText());
@@ -172,6 +212,7 @@ void MainWindow::setConnections()
     });
 
     connect(_manualCarBuilder, &ManualCarBuilder::resetted, this, [this]() {
+        _manualCarBuilder->setName(_nameOfCar->text());
         _manualCarBuilder->setExterior(comboExterior()->currentText());
         _manualCarBuilder->setInterior(comboInterior()->currentText());
         _manualCarBuilder->setComfort(comboComfort()->currentText());

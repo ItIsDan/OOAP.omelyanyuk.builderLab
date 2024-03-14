@@ -13,6 +13,11 @@ void ManualCarBuilder::reset()
     emit resetted();
 }
 
+void ManualCarBuilder::setName(const QString &name)
+{
+    _manualCar->setName(name);
+}
+
 void ManualCarBuilder::setExterior(const QString &exterior)
 {
     _manualCar->setExterior(exterior);

@@ -12,6 +12,11 @@ void AutomaticCarBuilder::reset()
     emit resetted();
 }
 
+void AutomaticCarBuilder::setName(const QString &name)
+{
+    _automaticCar->setName(name);
+}
+
 void AutomaticCarBuilder::setExterior(const QString &exterior)
 {
     _automaticCar->setExterior(exterior);

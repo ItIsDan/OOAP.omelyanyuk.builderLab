@@ -8,6 +8,7 @@ class IBuilder : public QObject
 {
     Q_OBJECT
 public:
+    virtual void setName(const QString &) = 0;
     virtual void setExterior(const QString &) = 0;
     virtual void setInterior(const QString &) = 0;
     virtual void setComfort(const QString &) = 0;

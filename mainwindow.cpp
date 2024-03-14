@@ -202,7 +202,8 @@ void MainWindow::setConnections()
     });
 
     connect(_automaticCarBuilder, &AutomaticCarBuilder::resetted, this, [this]() {
-        _automaticCarBuilder->setName(_nameOfCar->text());
+        _automaticCarBuilder->setName(_nameOfCar->text().isEmpty() ? "Automatic Car"
+                                                                   : _nameOfCar->text());
         _automaticCarBuilder->setExterior(comboExterior()->currentText());
         _automaticCarBuilder->setInterior(comboInterior()->currentText());
         _automaticCarBuilder->setComfort(comboComfort()->currentText());
@@ -212,7 +213,8 @@ void MainWindow::setConnections()
     });
 
     connect(_manualCarBuilder, &ManualCarBuilder::resetted, this, [this]() {
-        _manualCarBuilder->setName(_nameOfCar->text());
+        _manualCarBuilder->setName(_nameOfCar->text().isEmpty() ? "Manual Car"
+                                                                : _nameOfCar->text());
         _manualCarBuilder->setExterior(comboExterior()->currentText());
         _manualCarBuilder->setInterior(comboInterior()->currentText());
         _manualCarBuilder->setComfort(comboComfort()->currentText());

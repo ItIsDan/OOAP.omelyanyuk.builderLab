@@ -11,7 +11,7 @@ class AutomaticCarBuilder : public IBuilder
 public:
     explicit AutomaticCarBuilder();
 
-    void reset();
+    void reset() override;
     void setName(const QString &name) override;
     void setExterior(const QString &exterior) override;
     void setInterior(const QString &interior) override;

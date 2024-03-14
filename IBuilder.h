@@ -1,13 +1,15 @@
 #ifndef IBUILDER_H
 #define IBUILDER_H
 
-#include "car.h"
 #include <QObject>
 
+class Car;
 class IBuilder : public QObject
 {
     Q_OBJECT
+
 public:
+    virtual void reset() = 0;
     virtual void setName(const QString &) = 0;
     virtual void setExterior(const QString &) = 0;
     virtual void setInterior(const QString &) = 0;

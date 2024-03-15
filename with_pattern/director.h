@@ -2,8 +2,9 @@
 #define DIRECTOR_H
 
 #include <QObject>
-#include "IBuilder.h"
-#include "car.h"
+// #include "IBuilder.h"
+class Car;
+class IBuilder;
 
 class Director : public QObject
 {

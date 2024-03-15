@@ -293,6 +293,8 @@ void MainWindow::handleNewCar(Car *car)
     _cars.append(car);
     QString buffer;
     for (int i = 0; i < car->showParameters().size(); ++i) {
+        if (car->showAll()[i] == "")
+            continue;
         buffer.push_back(car->showParameters()[i]);
         buffer.push_back(" ");
         buffer.push_back(car->showAll()[i]);

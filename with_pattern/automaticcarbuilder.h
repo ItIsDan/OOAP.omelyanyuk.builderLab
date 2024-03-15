@@ -1,15 +1,15 @@
-#ifndef MANUALCARBUILDER_H
-#define MANUALCARBUILDER_H
+#ifndef AUTOMATICCARBUILDER_H
+#define AUTOMATICCARBUILDER_H
 
 #include <QObject>
 #include "IBuilder.h"
-#include "manualcar.h"
+#include "automaticcar.h"
 
-class ManualCarBuilder : public IBuilder
+class AutomaticCarBuilder : public IBuilder
 {
     Q_OBJECT
 public:
-    explicit ManualCarBuilder();
+    explicit AutomaticCarBuilder();
 
     void reset() override;
     void setName(const QString &name) override;
@@ -18,14 +18,16 @@ public:
     void setComfort(const QString &comfort) override;
     void setSafety(const QString &safety) override;
     void setMultimedia(const QString &multimedia) override;
-    void setDriveMode(const QString &driveMode);
+    void setAutoDrive(const QString &autoDrive);
+
     const QString builderName() override;
-    ManualCar *result();
+    AutomaticCar *result() override;
 
 private:
-    ManualCar *_manualCar { nullptr };
+    AutomaticCar *_automaticCar { nullptr };
+
 signals:
     void resetted();
 };
 
-#endif // MANUALCARBUILDER_H
+#endif // AUTOMATICCARBUILDER_H
